@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Image from 'next/image'; 
 import { 
   Check, 
   Brain, 
@@ -9,60 +10,80 @@ import {
   ArrowRight, 
   Menu, 
   X, 
-  Instagram 
+  Instagram,
+  BarChart3,
+  BookOpen,
+  MessageCircle,
+  Calendar,
+  Zap // Importante para o destaque
 } from 'lucide-react';
 
 export default function LandingPage() {
-  // Estado para o Menu Mobile
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  // Estado para o Preço (Toggle Semanal/Quinzenal)
-  const [isWeekly, setIsWeekly] = useState(false);
+  const [isWeekly, setIsWeekly] = useState(false); // false = Quinzenal, true = Semanal
 
-  // Dados dos Planos
+  // --- DADOS DOS PLANOS ---
   const plans = [
     {
       name: "Mensal",
-      description: "Liberdade total. Ideal para começar sem fidelidade.",
+      description: "Ideal para testar a metodologia sem fidelidade.",
       isRecurrent: true,
       price: { quinzenal: 230, semanal: 310 },
+      installmentPrice: { quinzenal: 230, semanal: 310 },
       installments: 1,
       features: [
-        "Plano Alimentar Individualizado",
-        "Acesso a plataforma da comunidade Base",
-        "Análise de Exames Laboratoriais",
-        "Suporte direto via WhatsApp",
+        { text: "Plano Alimentar Individualizado", included: true },
+        { text: "Consulta online com tela compartilhada", included: true },
+        { text: "Análise de Exames", included: true },
+        { text: "Suporte via WhatsApp", included: true },
+        { text: "Acesso completo a plataforma A BASE", included: false },
+        { text: "Ferramenta Monitor de Beliscadas", included: false },
+        { text: "Acesso aos Ebooks", included: false },
+        { text: "Acesso a aulas exclusivas", included: false },
+        { text: "Acesso ao Guia de Suplementação baseado em evidências", included: false, isSpecial: true },
       ],
       cta: "Começar Mensal",
       highlight: false
     },
     {
       name: "Semestral",
-      description: "O tempo necessário para uma mudança comportamental real.",
+      description: "O melhor custo-benefício para mudança real.",
       isRecurrent: false,
       price: { quinzenal: 1100, semanal: 1500 },
+      installmentPrice: { quinzenal: 191.60, semanal: 265.00 },
       installments: 6,
       features: [
-        "Tudo do plano mensal",
-        "Videoconferência Mensal de Alinhamento",
-        "E-book Exclusivo de Receitas",
-        "Prioridade na agenda de consultas",
-        "Acesso vitalício à Comunidade Base"
+        { text: "Plano Alimentar Individualizado", included: true },
+        { text: "Consulta online com tela compartilhada", included: true },
+        { text: "Análise de Exames", included: true },
+        { text: "Suporte via WhatsApp", included: true },
+        { text: "Acesso completo a plataforma A BASE", included: true },
+        { text: "Ferramenta Monitor de Beliscadas", included: true },
+        { text: "Acesso aos Ebooks", included: true },
+        { text: "Acesso a aulas exclusivas", included: true },
+        // Destaque ativado aqui
+        { text: "Acesso ao Guia de Suplementação baseado em evidências", included: true, isSpecial: true },
       ],
-      cta: "Garantir Vaga Semestral",
+      cta: "Garantir Semestral",
       highlight: true
     },
     {
       name: "Trimestral",
-      description: "Compromisso médio para consolidar os primeiros resultados.",
+      description: "Compromisso médio para resultados sólidos.",
       isRecurrent: false,
       price: { quinzenal: 600, semanal: 840 },
+      installmentPrice: { quinzenal: 206.60, semanal: 295.00 },
       installments: 3,
       features: [
-        "Plano Alimentar Individualizado",
-        "Acesso ao App Comunidade Base",
-        "Análise de Exames Laboratoriais",
-        "Suporte direto via WhatsApp",
+        { text: "Plano Alimentar Individualizado", included: true },
+        { text: "Consulta online com tela compartilhada", included: true },
+        { text: "Análise de Exames", included: true },
+        { text: "Suporte via WhatsApp", included: true },
+        { text: "Acesso completo a plataforma A BASE", included: true },
+        { text: "Ferramenta Monitor de Beliscadas", included: true },
+        { text: "Acesso aos Ebooks", included: true },
+        { text: "Acesso a aulas exclusivas", included: true },
+        { text: "Acesso ao Guia de Suplementação baseado em evidências", included: false, isSpecial: true },
       ],
       cta: "Escolher Trimestral",
       highlight: false
@@ -77,10 +98,9 @@ export default function LandingPage() {
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100">
       
       {/* --- NAVBAR --- */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+      <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            {/* Logo */}
             <div className="flex-shrink-0 flex items-center gap-2">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
                 GN
@@ -88,11 +108,9 @@ export default function LandingPage() {
               <span className="font-bold text-xl tracking-tight text-slate-900">Garcia<span className="text-blue-600">Nutrição</span></span>
             </div>
 
-            {/* Desktop Menu */}
             <div className="hidden md:flex space-x-8 items-center">
               <a href="#metodologia" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Metodologia</a>
-              <a href="#plataforma" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Plataforma</a>
-              <a href="#sobre" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Sobre Mim</a>
+              <a href="#plataforma" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">A Base</a>
               <button 
                 onClick={scrollToPricing}
                 className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-slate-800 transition"
@@ -101,7 +119,6 @@ export default function LandingPage() {
               </button>
             </div>
 
-            {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-600">
                 {isMobileMenuOpen ? <X /> : <Menu />}
@@ -110,11 +127,10 @@ export default function LandingPage() {
           </div>
         </div>
         
-        {/* Mobile Menu Dropdown */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-slate-100 px-4 py-4 space-y-4">
+          <div className="md:hidden bg-white border-b border-slate-100 px-4 py-4 space-y-4 shadow-xl">
             <a href="#metodologia" className="block text-slate-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Metodologia</a>
-            <a href="#plataforma" className="block text-slate-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Plataforma</a>
+            <a href="#plataforma" className="block text-slate-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Plataforma A Base</a>
             <button 
               onClick={() => { scrollToPricing(); setIsMobileMenuOpen(false); }}
               className="w-full bg-blue-600 text-white px-5 py-3 rounded-lg text-sm font-bold"
@@ -141,7 +157,7 @@ export default function LandingPage() {
         </h1>
         
         <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Uma abordagem comportamental para você fazer as pazes com a comida e atingir seus objetivos com estratégias científicas, não com dietas da moda.
+          Uma abordagem comportamental para você fazer as pazes com a comida e atingir seus objetivos com estratégias científicas.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -152,159 +168,289 @@ export default function LandingPage() {
             Quero agendar consultoria
             <ArrowRight className="w-5 h-5" />
           </button>
-          <a href="#metodologia" className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-semibold text-slate-600 hover:bg-slate-50 transition border border-slate-200">
-            Entender metodologia
+          <a 
+            href="#plataforma" 
+            className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-semibold text-slate-600 border border-slate-200 bg-white transition-all duration-300 hover:shadow-xl hover:border-blue-300 hover:text-blue-600 hover:-translate-y-1"
+          >
+            Conhecer A Base
           </a>
-        </div>
-
-        {/* Prova Social Simples */}
-        <div className="mt-12 text-sm text-slate-500 font-medium">
-          +50 pessoas na lista de espera para o novo protocolo
         </div>
       </section>
 
-      {/* --- METODOLOGIA (3 PILLARS) --- */}
-      <section id="metodologia" className="py-24 bg-slate-50">
+      {/* --- METODOLOGIA (AGORA COM 4 PILARES) --- */}
+      <section id="metodologia" className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-slate-900">Por que funciona?</h2>
-            <p className="mt-4 text-slate-600">Três pilares que sustentam o seu resultado a longo prazo.</p>
+            <p className="mt-4 text-slate-600">Quatro pilares que sustentam o seu resultado a longo prazo.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Pilar 1 */}
-            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-6">
+          {/* MUDANÇA AQUI: md:grid-cols-2 lg:grid-cols-4 para caberem 4 cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            {/* 1. Ciência */}
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4">
                 <Microscope className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold mb-3">Ciência, não "Achismo"</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Minhas condutas não seguem modismos de internet. Tudo é baseado no que a literatura científica aponta como seguro e eficiente.
+              <h3 className="text-lg font-bold mb-2">Ciência, não "Achismo"</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Condutas baseadas no que a literatura científica atual aponta como seguro e eficiente.
               </p>
             </div>
 
-            {/* Pilar 2 */}
-            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-6">
+            {/* 2. Comportamental */}
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-4">
                 <Brain className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold mb-3">Comportamental</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Não adianta um papel perfeito se você não consegue seguir. Trabalhamos a sua relação com a comida e a rotina real.
+              <h3 className="text-lg font-bold mb-2">Comportamental</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                O plano se adapta à sua vida. Focamos na sua relação com a comida e na adesão a longo prazo.
               </p>
             </div>
 
-            {/* Pilar 3 */}
-            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-6">
-                <Smartphone className="w-6 h-6" />
+            {/* 3. Check-in (NOVO!) */}
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-4">
+                <MessageCircle className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold mb-3">Tecnologia Própria</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Acesso exclusivo à <strong>Comunidade Base</strong>. Uma plataforma onde você controla sua evolução e aprende a ter autonomia.
+              <h3 className="text-lg font-bold mb-2">Check-in Constante</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Feedback contínuo para ajustar a rota e manter a evolução. Não te deixo sozinho(a) com a dieta na mão.
               </p>
             </div>
+
+            {/* 4. Plataforma */}
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-4">
+                <Smartphone className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Plataforma A Base</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                App exclusivo para centralizar sua dieta, treino e aprendizado em um só lugar.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* --- PLATAFORMA --- */}
+      <section id="plataforma" className="py-24 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            
+            {/* Texto Explicativo */}
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-sm font-semibold mb-6 border border-purple-100">
+                <Smartphone className="w-4 h-4" />
+                Tecnologia Exclusiva
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+                Muito mais que um PDF. <br />
+                Bem-vindo à <span className="text-blue-600">Base.</span>
+              </h2>
+              <p className="text-lg text-slate-600 mb-8 leading-relaxed">
+                Desenvolvi uma plataforma própria para que você tenha autonomia. 
+                Aqui, você não apenas segue uma dieta, você aprende e acompanha sua evolução em tempo real.
+              </p>
+
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                    <BarChart3 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900">Monitor de beliscadas</h4>
+                    <p className="text-sm text-slate-600 mt-1">Anote seus deslizes na dieta para analisarmos juntos o que motivou esse comportamento</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                    <BookOpen className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900">Central Educativa</h4>
+                    <p className="text-sm text-slate-600 mt-1">Materiais e vídeos para você entender o "porquê" de cada escolha alimentar, como funciona cada processo de evolução e muito mais.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                    <Calendar className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900">Check-in</h4>
+                    <p className="text-sm text-slate-600 mt-1">Seu check-in funciona dentro da plataforma. Com o check-in conseguiremos ver suas evoluções e comportamentos de forma mais assertiva para realizar as mudanças necessárias</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* --- IMAGEM DA PLATAFORMA --- */}
+            <div className="relative flex justify-center items-center">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] bg-blue-100/50 rounded-full blur-3xl -z-10"></div>
+                
+                <Image
+                    src="/mockup-plataforma.png" 
+                    alt="Telas da plataforma exclusiva do paciente A Base"
+                    width={2500} 
+                    height={3750}
+                    quality={100} 
+                    priority 
+                    className="w-full lg:w-[170%] lg:max-w-none lg:-ml-48 transform rotate-[-2deg] hover:rotate-0 transition duration-700 ease-in-out z-10 drop-shadow-2xl"
+                />
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* --- PRICING SECTION --- */}
-      <section id="planos" className="py-24 bg-white">
+      <section id="planos" className="py-24 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl tracking-tight">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold sm:text-4xl tracking-tight">
               Invista na sua Base
             </h2>
-            <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">
               Escolha a intensidade do acompanhamento que se adapta à sua rotina.
             </p>
           </div>
 
           {/* Toggle */}
-          <div className="flex justify-center items-center mb-16 space-x-6 select-none">
-            <span className={`text-sm font-semibold cursor-pointer transition-colors ${!isWeekly ? 'text-blue-700' : 'text-slate-400'}`} onClick={() => setIsWeekly(false)}>
-              Check-in Quinzenal
-            </span>
-            
-            <button
-              onClick={() => setIsWeekly(!isWeekly)}
-              className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                isWeekly ? 'bg-blue-600' : 'bg-slate-300'
-              }`}
-            >
-              <span
-                className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-md transition-transform ${
-                  isWeekly ? 'translate-x-7' : 'translate-x-1'
+          <div className="flex flex-col items-center mb-16">
+            <div className="flex items-center space-x-6 select-none bg-slate-800 p-2 rounded-full border border-slate-700">
+              <span 
+                className={`text-sm font-bold px-4 py-2 rounded-full cursor-pointer transition-all ${!isWeekly ? 'bg-slate-600 text-white' : 'text-slate-400 hover:text-white'}`} 
+                onClick={() => setIsWeekly(false)}
+              >
+                Quinzenal
+              </span>
+              
+              <button
+                onClick={() => setIsWeekly(!isWeekly)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                  isWeekly ? 'bg-blue-500' : 'bg-slate-600'
                 }`}
-              />
-            </button>
-            
-            <span className={`text-sm font-semibold cursor-pointer transition-colors ${isWeekly ? 'text-blue-700' : 'text-slate-400'}`} onClick={() => setIsWeekly(true)}>
-              Check-in Semanal
-            </span>
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    isWeekly ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+              
+              <span 
+                className={`text-sm font-bold px-4 py-2 rounded-full cursor-pointer transition-all ${isWeekly ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`} 
+                onClick={() => setIsWeekly(true)}
+              >
+                Semanal
+              </span>
+            </div>
+
+            <div className="mt-6 text-center h-8 animate-fade-in transition-all">
+              {isWeekly ? (
+                <p className="text-blue-400 font-medium text-sm bg-blue-400/10 px-4 py-2 rounded-lg inline-block border border-blue-400/20">
+                  ⚡ <strong>Semanal:</strong> Feedback a cada 7 dias. Ideal para quem precisa de ajustes rápidos e alta "cobrança".
+                </p>
+              ) : (
+                <p className="text-slate-400 font-medium text-sm bg-slate-800 px-4 py-2 rounded-lg inline-block border border-slate-700">
+                  🍃 <strong>Quinzenal:</strong> Feedback a cada 15 dias. Ideal para quem já tem certa autonomia e quer manutenção.
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Pricing Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
             {plans.map((plan, index) => {
-              const currentTotal = isWeekly ? plan.price.semanal : plan.price.quinzenal;
-              const installmentValue = plan.isRecurrent 
-                ? currentTotal 
-                : Math.ceil(currentTotal / plan.installments);
+              const totalValue = isWeekly ? plan.price.semanal : plan.price.quinzenal;
+              const installmentValue = isWeekly ? plan.installmentPrice.semanal : plan.installmentPrice.quinzenal;
 
               return (
                 <div 
                   key={index} 
                   className={`relative flex flex-col rounded-2xl p-8 transition-all duration-300 border ${
                     plan.highlight 
-                      ? 'bg-white shadow-2xl border-blue-600 scale-105 z-10' 
-                      : 'bg-white shadow-lg border-slate-100 hover:border-blue-200'
+                      ? 'bg-slate-800 border-blue-500 shadow-2xl shadow-blue-900/20 scale-105 z-10' 
+                      : 'bg-slate-800 border-slate-700 hover:border-slate-600'
                   }`}
                 >
                   {plan.highlight && (
-                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
-                      Mais Recomendado
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
+                      Mais Escolhido
                     </div>
                   )}
 
-                  <h3 className="text-xl font-bold text-slate-900">{plan.name}</h3>
-                  <p className="mt-2 text-slate-500 text-sm h-10">{plan.description}</p>
+                  <h3 className="text-xl font-bold text-white">{plan.name}</h3>
+                  <p className="mt-2 text-slate-400 text-sm h-10">{plan.description}</p>
                   
                   <div className="mt-6 flex items-baseline">
-                    <span className="text-4xl font-extrabold text-slate-900">
-                      R$ {installmentValue}
+                    <span className="text-4xl font-extrabold text-white">
+                      R$ {installmentValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                     </span>
-                    <span className="ml-1 text-xl font-medium text-slate-500">/mês</span>
+                    <span className="ml-1 text-xl font-medium text-slate-400">
+                        {plan.installments > 1 ? '/mês' : ' à vista'}
+                    </span>
                   </div>
                   
                   <div className="mt-1 h-6">
                     {!plan.isRecurrent && (
-                      <p className="text-xs text-slate-400 font-medium">
-                        Total de R$ {currentTotal} {plan.installments > 1 ? `em até ${plan.installments}x` : 'à vista'}
+                      <p className="text-xs text-slate-500 font-medium">
+                         R$ {totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (Pix) ou {plan.installments}x de R$ {installmentValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                       </p>
                     )}
                   </div>
 
                   <ul className="mt-8 space-y-4 flex-1">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start">
+                    {/* Item Fixo: Check-in */}
+                    <li className="flex items-start bg-slate-700/50 p-2 rounded-lg border border-slate-600/50">
                         <div className="flex-shrink-0">
-                          <Check className="h-5 w-5 text-blue-600" />
+                          <MessageCircle className={`h-5 w-5 ${isWeekly ? 'text-blue-400' : 'text-green-400'}`} />
                         </div>
-                        <span className="ml-3 text-sm text-slate-700 leading-tight">{feature}</span>
+                        <span className="ml-3 text-sm font-bold text-white leading-tight">
+                          Check-in de Evolução {isWeekly ? 'SEMANAL' : 'QUINZENAL'}
+                        </span>
+                    </li>
+
+                    {/* Features Dinâmicas com DESTAQUE NOVO (Highlight do Guia) */}
+                    {plan.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start px-2">
+                        <div className="flex-shrink-0 mt-0.5">
+                          {feature.included ? (
+                            <Check className={`h-5 w-5 ${feature.isSpecial ? 'text-yellow-400' : 'text-green-400'}`} />
+                          ) : (
+                            <X className="h-5 w-5 text-red-500" />
+                          )}
+                        </div>
+                        <span 
+                          className={`ml-3 text-sm leading-tight transition-all ${
+                            feature.included 
+                              // Se for especial: Amarelo + Negrito + Fundo
+                              ? (feature.isSpecial ? 'text-yellow-400 font-bold bg-yellow-400/10 px-2 py-1 rounded -mt-1' : 'text-slate-300')
+                              : 'text-slate-600 line-through decoration-slate-600'
+                          }`}
+                        >
+                          {feature.text}
+                          {/* Ícone de Raio Extra */}
+                          {feature.included && feature.isSpecial && (
+                            <Zap className="inline-block w-3 h-3 ml-2 text-yellow-400 fill-yellow-400 animate-pulse" />
+                          )}
+                        </span>
                       </li>
                     ))}
                   </ul>
 
                   <a
-                    href="https://wa.me/5521966887924?text=Ola,%20vi%20seu%20site%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20consultoria"
+                    href={`https://wa.me/5521SEUNUMERO?text=Ola,%20quero%20o%20plano%20${plan.name}%20com%20check-in%20${isWeekly ? 'Semanal' : 'Quinzenal'}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`mt-8 block w-full py-4 px-6 rounded-xl text-center font-bold transition-all ${
                       plan.highlight
-                        ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-600/30'
-                        : 'bg-slate-50 text-blue-700 hover:bg-blue-50 hover:text-blue-800'
+                        ? 'bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-900/20'
+                        : 'bg-slate-700 text-white hover:bg-slate-600'
                     }`}
                   >
                     {plan.cta}
@@ -317,16 +463,16 @@ export default function LandingPage() {
       </section>
 
       {/* --- FOOTER --- */}
-      <footer className="bg-slate-900 text-slate-400 py-12">
+      <footer className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex justify-center gap-6 mb-8">
             <a href="#" className="hover:text-white transition"><Instagram className="w-6 h-6"/></a>
           </div>
           <p className="mb-4">
-            &copy; 2026 João Victor Garcia. Todos os direitos reservados.
+            &copy; 2026 Garcia Nutrição. Todos os direitos reservados.
           </p>
           <p className="text-sm text-slate-600">
-            Niterói, RJ • CRN XXXXX
+            Niterói, RJ • CRN Em Breve
           </p>
         </div>
       </footer>
