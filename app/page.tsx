@@ -110,7 +110,7 @@ export default function LandingPage() {
 
             <div className="hidden md:flex space-x-8 items-center">
               <a href="#metodologia" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Metodologia</a>
-              <a href="#plataforma" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">A Base</a>
+              <a href="#plataforma" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Conheça: A Base</a>
               <button 
                 onClick={scrollToPricing}
                 className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-slate-800 transition"
