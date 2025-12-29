@@ -228,7 +228,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-lg font-bold mb-2">Plataforma A Base</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                App exclusivo para centralizar sua dieta, treino e aprendizado em um só lugar.
+                Plataforma exclusiva para centralizar seus check-ins, monitor de beliscadas, aulas exclusivas, ebooks e mais em um só lugar.
               </p>
             </div>
 
