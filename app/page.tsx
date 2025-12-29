@@ -99,7 +99,7 @@ export default function LandingPage() {
   const steps = [
     {
       title: "1. Anamnese Detalhada",
-      desc: "Você recebe um questionário completo para eu entender sua rotina, preferências e histórico de saúde antes mesmo de falarmos.",
+      desc: "Você recebe um questionário completo para que eu possa entender sua rotina, preferências, histórico de saúde antes mesmo de falarmos. Você envia fotos e medidas seguindo minhas orientações. Eu avalio sua composição corporal à distância com precisão.",
       icon: ClipboardList
     },
     {
@@ -108,13 +108,13 @@ export default function LandingPage() {
       icon: Video
     },
     {
-      title: "3. Avaliação Física",
-      desc: "Você envia fotos e medidas seguindo meu guia prático. Eu avalio sua composição corporal à distância com precisão.",
-      icon: Camera
+      title: "3. Plataforma exclusiva - A BASE",
+      desc: "Vou liberar seu acesso a plataforma exclusiva que criei para que você tenha acesso a todos os conteúdos.",
+      icon: Smartphone
     },
     {
       title: "4. Dieta no App",
-      desc: "Seu plano alimentar e treino chegam direto no aplicativo. Prático, na palma da mão e fácil de seguir.",
+      desc: "Seu plano alimentar estará disponível em um aplicativo. Prático, na palma da mão e fácil de seguir.",
       icon: Utensils
     },
     {
