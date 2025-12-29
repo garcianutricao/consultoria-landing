@@ -526,7 +526,7 @@ export default function LandingPage() {
       <footer className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex justify-center gap-6 mb-8">
-            <a href="#" className="hover:text-white transition"><Instagram className="w-6 h-6"/></a>
+            <a href="https://www.instagram.com/garcianutricao" target="_blank" rel="noopener noreferrer" className="hover:text-white transition"><Instagram className="w-6 h-6"/></a>
           </div>
           <p className="mb-4">
             &copy; 2026 Garcia Nutrição. Todos os direitos reservados.
