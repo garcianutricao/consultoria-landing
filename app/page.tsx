@@ -34,7 +34,6 @@ export default function LandingPage() {
       features: [
         { text: "Plano Alimentar Individualizado", included: true },
         { text: "Consulta online com tela compartilhada", included: true },
-        { text: "Análise de Exames", included: true },
         { text: "Suporte via WhatsApp", included: true },
         { text: "Acesso completo a plataforma A BASE", included: false },
         { text: "Ferramenta Monitor de Beliscadas", included: false },
@@ -55,7 +54,6 @@ export default function LandingPage() {
       features: [
         { text: "Plano Alimentar Individualizado", included: true },
         { text: "Consulta online com tela compartilhada", included: true },
-        { text: "Análise de Exames", included: true },
         { text: "Suporte via WhatsApp", included: true },
         { text: "Acesso completo a plataforma A BASE", included: true },
         { text: "Ferramenta Monitor de Beliscadas", included: true },
@@ -77,7 +75,6 @@ export default function LandingPage() {
       features: [
         { text: "Plano Alimentar Individualizado", included: true },
         { text: "Consulta online com tela compartilhada", included: true },
-        { text: "Análise de Exames", included: true },
         { text: "Suporte via WhatsApp", included: true },
         { text: "Acesso completo a plataforma A BASE", included: true },
         { text: "Ferramenta Monitor de Beliscadas", included: true },
@@ -444,7 +441,9 @@ export default function LandingPage() {
                   </ul>
 
                   <a
-                    href={`https://wa.me/5521SEUNUMERO?text=Ola,%20quero%20o%20plano%20${plan.name}%20com%20check-in%20${isWeekly ? 'Semanal' : 'Quinzenal'}`}
+                    // Substitua a linha antiga por esta nova abaixo:
+                    href={`https://wa.me/5521966887924?text=Oi,%20Garcia!%20Quero%20saber%20mais%20sobre%20o%20plano%20${plan.name}!`}
+                    
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`mt-8 block w-full py-4 px-6 rounded-xl text-center font-bold transition-all ${
