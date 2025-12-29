@@ -15,7 +15,13 @@ import {
   BookOpen,
   MessageCircle,
   Calendar,
-  Zap // Importante para o destaque
+  Zap,
+  ClipboardList, // Icone para Anamnese
+  Video, // Icone para Consulta
+  Camera, // Icone para Avaliação
+  Utensils, // Icone para Dieta
+  HelpCircle, // Icone para Suporte
+  RefreshCw // Icone para Check-in
 } from 'lucide-react';
 
 export default function LandingPage() {
@@ -34,6 +40,7 @@ export default function LandingPage() {
       features: [
         { text: "Plano Alimentar Individualizado", included: true },
         { text: "Consulta online com tela compartilhada", included: true },
+        { text: "Análise de Exames", included: true },
         { text: "Suporte via WhatsApp", included: true },
         { text: "Acesso completo a plataforma A BASE", included: false },
         { text: "Ferramenta Monitor de Beliscadas", included: false },
@@ -54,12 +61,12 @@ export default function LandingPage() {
       features: [
         { text: "Plano Alimentar Individualizado", included: true },
         { text: "Consulta online com tela compartilhada", included: true },
+        { text: "Análise de Exames", included: true },
         { text: "Suporte via WhatsApp", included: true },
         { text: "Acesso completo a plataforma A BASE", included: true },
         { text: "Ferramenta Monitor de Beliscadas", included: true },
         { text: "Acesso aos Ebooks", included: true },
         { text: "Acesso a aulas exclusivas", included: true },
-        // Destaque ativado aqui
         { text: "Acesso ao Guia de Suplementação baseado em evidências", included: true, isSpecial: true },
       ],
       cta: "Garantir Semestral",
@@ -75,6 +82,7 @@ export default function LandingPage() {
       features: [
         { text: "Plano Alimentar Individualizado", included: true },
         { text: "Consulta online com tela compartilhada", included: true },
+        { text: "Análise de Exames", included: true },
         { text: "Suporte via WhatsApp", included: true },
         { text: "Acesso completo a plataforma A BASE", included: true },
         { text: "Ferramenta Monitor de Beliscadas", included: true },
@@ -84,6 +92,40 @@ export default function LandingPage() {
       ],
       cta: "Escolher Trimestral",
       highlight: false
+    }
+  ];
+
+  // --- DADOS DO PASSO A PASSO ---
+  const steps = [
+    {
+      title: "1. Anamnese Detalhada",
+      desc: "Você recebe um questionário completo para eu entender sua rotina, preferências e histórico de saúde antes mesmo de falarmos.",
+      icon: ClipboardList
+    },
+    {
+      title: "2. Consulta Online",
+      desc: "Um encontro por vídeo onde vamos alinhar objetivos e traçar a estratégia. Nada de conversa rápida, aqui eu te escuto.",
+      icon: Video
+    },
+    {
+      title: "3. Avaliação Física",
+      desc: "Você envia fotos e medidas seguindo meu guia prático. Eu avalio sua composição corporal à distância com precisão.",
+      icon: Camera
+    },
+    {
+      title: "4. Dieta no App",
+      desc: "Seu plano alimentar e treino chegam direto no aplicativo. Prático, na palma da mão e fácil de seguir.",
+      icon: Utensils
+    },
+    {
+      title: "5. Suporte Contínuo",
+      desc: "Dúvidas no mercado? Vai sair pra jantar? Me chama no WhatsApp. O suporte é contínuo para você não errar.",
+      icon: HelpCircle
+    },
+    {
+      title: "6. Check-ins de Evolução",
+      desc: "Semanal ou quinzenalmente (você escolhe), você preenche o check-in na plataforma para ajustarmos a rota.",
+      icon: RefreshCw
     }
   ];
 
@@ -107,7 +149,8 @@ export default function LandingPage() {
 
             <div className="hidden md:flex space-x-8 items-center">
               <a href="#metodologia" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Metodologia</a>
-              <a href="#plataforma" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Conheça: A Base</a>
+              <a href="#como-funciona" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Como Funciona</a>
+              <a href="#plataforma" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">A Base</a>
               <button 
                 onClick={scrollToPricing}
                 className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-slate-800 transition"
@@ -127,6 +170,7 @@ export default function LandingPage() {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white border-b border-slate-100 px-4 py-4 space-y-4 shadow-xl">
             <a href="#metodologia" className="block text-slate-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Metodologia</a>
+            <a href="#como-funciona" className="block text-slate-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Como Funciona</a>
             <a href="#plataforma" className="block text-slate-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Plataforma A Base</a>
             <button 
               onClick={() => { scrollToPricing(); setIsMobileMenuOpen(false); }}
@@ -174,7 +218,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* --- METODOLOGIA (AGORA COM 4 PILARES) --- */}
+      {/* --- METODOLOGIA (4 PILARES) --- */}
       <section id="metodologia" className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
@@ -182,9 +226,7 @@ export default function LandingPage() {
             <p className="mt-4 text-slate-600">Quatro pilares que sustentam o seu resultado a longo prazo.</p>
           </div>
 
-          {/* MUDANÇA AQUI: md:grid-cols-2 lg:grid-cols-4 para caberem 4 cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            
             {/* 1. Ciência */}
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4">
@@ -207,14 +249,14 @@ export default function LandingPage() {
               </p>
             </div>
 
-            {/* 3. Check-in (NOVO!) */}
+            {/* 3. Check-in */}
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
               <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-4">
                 <MessageCircle className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold mb-2">Check-in Constante</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                Feedback contínuo para ajustar a rota e manter a evolução. Não te deixo sozinho(a) com a dieta na mão.
+                Feedback contínuo para ajustar a rota. Não te deixo sozinho(a) com a dieta na mão.
               </p>
             </div>
 
@@ -225,22 +267,43 @@ export default function LandingPage() {
               </div>
               <h3 className="text-lg font-bold mb-2">Plataforma A Base</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                Plataforma exclusiva para centralizar seus check-ins, calculadora de substituição, aulas exclusivas, ebooks e mais em um só lugar.
+                App exclusivo para centralizar sua dieta, treino e aprendizado em um só lugar.
               </p>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* --- PLATAFORMA --- */}
-      <section id="plataforma" className="py-24 overflow-hidden">
+      {/* --- COMO FUNCIONA (NOVA SEÇÃO!) --- */}
+      <section id="como-funciona" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-slate-900">Como funciona a Consultoria?</h2>
+            <p className="mt-4 text-slate-600">O passo a passo da sua jornada após entrar no time.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {steps.map((step, idx) => (
+              <div key={idx} className="flex flex-col items-start p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 transition">
+                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-4">
+                  <step.icon className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{step.title}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- PLATAFORMA "A BASE" --- */}
+      <section id="plataforma" className="py-24 overflow-hidden bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             
             {/* Texto Explicativo */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-sm font-semibold mb-6 border border-purple-100">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-sm font-semibold mb-6 border border-purple-200">
                 <Smartphone className="w-4 h-4" />
                 Tecnologia Exclusiva
               </div>
@@ -255,7 +318,7 @@ export default function LandingPage() {
 
               <div className="space-y-6">
                 <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-blue-600">
                     <BarChart3 className="w-5 h-5" />
                   </div>
                   <div>
@@ -264,21 +327,21 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-blue-600">
                     <BookOpen className="w-5 h-5" />
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900">Central Educativa</h4>
-                    <p className="text-sm text-slate-600 mt-1">Materiais e vídeos para você entender o "porquê" de cada escolha alimentar, como funciona cada processo de evolução e muito mais.</p>
+                    <p className="text-sm text-slate-600 mt-1">Materiais e vídeos para você entender o "porquê" de cada escolha alimentar.</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-blue-600">
                     <Calendar className="w-5 h-5" />
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900">Check-in</h4>
-                    <p className="text-sm text-slate-600 mt-1">Seu check-in funciona dentro da plataforma. Com o check-in conseguiremos ver suas evoluções e comportamentos de forma mais assertiva para realizar as mudanças necessárias</p>
+                    <p className="text-sm text-slate-600 mt-1">Seu check-in funciona dentro da plataforma. Com o check-in conseguiremos ver suas evoluções e comportamentos de forma mais assertiva.</p>
                   </div>
                 </div>
               </div>
@@ -350,11 +413,11 @@ export default function LandingPage() {
             <div className="mt-6 text-center h-8 animate-fade-in transition-all">
               {isWeekly ? (
                 <p className="text-blue-400 font-medium text-sm bg-blue-400/10 px-4 py-2 rounded-lg inline-block border border-blue-400/20">
-                  ⚡ <strong>Semanal:</strong> Check-ins a cada 7 dias. Ideal para quem precisa de ajustes rápidos e alta "cobrança".
+                  ⚡ <strong>Semanal:</strong> Feedback a cada 7 dias. Ideal para quem precisa de ajustes rápidos e alta "cobrança".
                 </p>
               ) : (
                 <p className="text-slate-400 font-medium text-sm bg-slate-800 px-4 py-2 rounded-lg inline-block border border-slate-700">
-                  🍃 <strong>Quinzenal:</strong> Check-ins a cada 15 dias. Ideal para quem já tem certa autonomia e quer manutenção.
+                  🍃 <strong>Quinzenal:</strong> Feedback a cada 15 dias. Ideal para quem já tem certa autonomia e quer manutenção.
                 </p>
               )}
             </div>
@@ -441,9 +504,7 @@ export default function LandingPage() {
                   </ul>
 
                   <a
-                    // Substitua a linha antiga por esta nova abaixo:
-                    href={`https://wa.me/5521966887924?text=Oi,%20Garcia!%20Quero%20saber%20mais%20sobre%20o%20plano%20${plan.name}!`}
-                    
+                    href={`https://wa.me/5521SEUNUMERO?text=Oi,%20Garcia!%20Quero%20saber%20mais%20sobre%20o%20plano%20${plan.name}!`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`mt-8 block w-full py-4 px-6 rounded-xl text-center font-bold transition-all ${
