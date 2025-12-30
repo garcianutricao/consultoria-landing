@@ -410,7 +410,7 @@ export default function LandingPage() {
             <div className="mt-6 text-center h-8 animate-fade-in transition-all">
               {isWeekly ? (
                 <p className="text-blue-400 font-medium text-sm bg-blue-400/10 px-4 py-2 rounded-lg inline-block border border-blue-400/20">
-                  ⚡ <strong>Semanal:</strong> Feedback a cada 7 dias. Ideal para quem precisa de ajustes rápidos e alta "cobrança".
+                  ⚡ <strong>Semanal:</strong> Feedback a cada 7 dias. Ideal para quem precisa de mais intervenções comportamentais e maior "cobrança".
                 </p>
               ) : (
                 <p className="text-slate-400 font-medium text-sm bg-slate-800 px-4 py-2 rounded-lg inline-block border border-slate-700">
