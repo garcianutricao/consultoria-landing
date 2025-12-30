@@ -204,7 +204,7 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button 
             onClick={scrollToPricing}
-            className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-600/20"
+            className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-blue-700 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 shadow-blue-600/20"
           >
             Quero agendar consultoria
             <ArrowRight className="w-5 h-5" />
