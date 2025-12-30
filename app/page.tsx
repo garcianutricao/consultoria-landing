@@ -40,7 +40,6 @@ export default function LandingPage() {
       features: [
         { text: "Plano Alimentar Individualizado", included: true },
         { text: "Consulta online com tela compartilhada", included: true },
-        { text: "Análise de Exames", included: true },
         { text: "Suporte via WhatsApp", included: true },
         { text: "Acesso completo a plataforma A BASE", included: false },
         { text: "Ferramenta Monitor de Beliscadas", included: false },
@@ -61,7 +60,6 @@ export default function LandingPage() {
       features: [
         { text: "Plano Alimentar Individualizado", included: true },
         { text: "Consulta online com tela compartilhada", included: true },
-        { text: "Análise de Exames", included: true },
         { text: "Suporte via WhatsApp", included: true },
         { text: "Acesso completo a plataforma A BASE", included: true },
         { text: "Ferramenta Monitor de Beliscadas", included: true },
@@ -82,7 +80,6 @@ export default function LandingPage() {
       features: [
         { text: "Plano Alimentar Individualizado", included: true },
         { text: "Consulta online com tela compartilhada", included: true },
-        { text: "Análise de Exames", included: true },
         { text: "Suporte via WhatsApp", included: true },
         { text: "Acesso completo a plataforma A BASE", included: true },
         { text: "Ferramenta Monitor de Beliscadas", included: true },
