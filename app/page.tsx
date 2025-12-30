@@ -440,7 +440,7 @@ export default function LandingPage() {
                 >
                   {plan.highlight && (
                     <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
-                      Mais Escolhido
+                      Maior custo-benefício
                     </div>
                   )}
 
