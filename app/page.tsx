@@ -148,6 +148,7 @@ export default function LandingPage() {
               <a href="#metodologia" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Metodologia</a>
               <a href="#como-funciona" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">Como Funciona</a>
               <a href="#plataforma" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">A Base</a>
+              <a href="/login" className="text-sm font-bold text-slate-900 hover:text-blue-600 transition">Área do Aluno</a>
               <button 
                 onClick={scrollToPricing}
                 className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-slate-800 transition"
