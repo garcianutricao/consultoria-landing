@@ -274,7 +274,7 @@ export default function PerfilPage() {
             </div>
 
             <h2 className="text-xl font-bold text-slate-900">{user.nome}</h2>
-            <p className="text-slate-500 text-sm mb-4">Paciente Garcia Nutrição</p>
+            <p className="text-slate-500 text-sm mb-4">Paciente</p>
 
             <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${user.active ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
               <Shield className="w-3 h-3" />

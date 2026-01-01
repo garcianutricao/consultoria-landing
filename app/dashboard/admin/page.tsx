@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { 
-  Users, PlayCircle, Ticket, Settings, DollarSign, BarChart4, Loader2
+  Users, PlayCircle, Ticket, Settings, DollarSign, BarChart4, Loader2, Apple
 } from 'lucide-react';
 
 import PatientsTab from './components/PatientsTab';
@@ -14,6 +14,7 @@ import PartnersTab from './components/PartnersTab';
 import ConfigTab from './components/ConfigTab';
 import AdminModals from './components/AdminModals';
 import { useAdmin } from '@/hooks/useAdmin';
+import FoodsTab from './components/FoodsTab';
 
 export default function SuperAdminPage() {
   // 1. Estados de Autenticação e Navegação
@@ -36,6 +37,7 @@ export default function SuperAdminPage() {
   const [aulas, setAulas] = useState<any[]>([]);
   const [parceiros, setParceiros] = useState<any[]>([]);
   const [patientFiles, setPatientFiles] = useState<any[]>([]);
+  const [foodsDb, setFoodsDb] = useState<any[]>([]);
 
   // 4. Carregamento de Dados (Só dispara se for Admin)
   useEffect(() => { 
@@ -49,9 +51,11 @@ export default function SuperAdminPage() {
       const { data: checkins } = await supabase.from('checkins').select('*').order('date', { ascending: true });
       const { data: slips } = await supabase.from('slips').select('*').order('created_at', { ascending: false });
       const { data: content } = await supabase.from('content').select('*').order('created_at', { ascending: false });
+      const { data: alimentos } = await supabase.from('foods').select('*').order('name', { ascending: true });
       const { data: transactions } = await supabase.from('transactions').select('*').order('created_at', { ascending: false });
       const { data: partners } = await supabase.from('partners').select('*').order('created_at', { ascending: false });
       const { data: files } = await supabase.from('patient_files').select('*').order('created_at', { ascending: false });
+
 
       const profilesMap = new Map(profiles?.map(p => [p.id, p.full_name || 'Sem Nome']));
 
@@ -100,6 +104,7 @@ export default function SuperAdminPage() {
       setAulas((content || []).filter(c => c.type === 'aula'));
       setParceiros(partners || []);
       setPatientFiles(files || []);
+      setFoodsDb(alimentos || []); // Set Alimentos
 
     } catch (err) { console.error(err); } finally { setLoading(false); }
   }
@@ -167,6 +172,13 @@ export default function SuperAdminPage() {
     }
   };
 
+  const handleDeleteFood = async (id: string) => {
+    if(confirm("Excluir este alimento?")) {
+      await supabase.from('foods').delete().eq('id', id);
+      fetchDados();
+    }
+  };
+
   // 6. Renderização Condicional de Segurança
   if (authLoading) {
     return (
@@ -185,7 +197,7 @@ export default function SuperAdminPage() {
       <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tighter">Central Admin</h1>
-          <p className="text-slate-500 font-medium">Gestão inteligente Garcia Nutrição.</p>
+          <p className="text-slate-500 font-medium">Gestão inteligente.</p>
         </div>
         <div className="flex bg-white p-1 rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
           {[
@@ -194,7 +206,8 @@ export default function SuperAdminPage() {
             {id:'financeiro', icon: DollarSign, label:'Financeiro'},
             {id:'conteudo', icon: PlayCircle, label:'Conteúdo'},
             {id:'parceiros', icon: Ticket, label:'Parceiros'},
-            {id:'config', icon: Settings, label:'Configurações'}
+            {id:'config', icon: Settings, label:'Configurações'},
+            {id:'alimentos', icon: Apple, label:'Alimentos'}
           ].map(t => (
             <button 
               key={t.id} 
@@ -242,8 +255,16 @@ export default function SuperAdminPage() {
         
         {activeTab === 'financeiro' && (<FinanceTab transacoes={transacoes} onOpenModal={(t) => handleOpenModal(t)} onDelete={(id) => handleDeleteItem('transactions', id)} />)}
         {activeTab === 'conteudo' && (<ContentTab ebooks={ebooks} aulas={aulas} onOpenModal={(t, d) => handleOpenModal(t, d)} onDelete={(id) => handleDeleteItem('content', id)} />)}
+        {activeTab === 'alimentos' && (
+    <FoodsTab 
+      foods={foodsDb} 
+      onDelete={handleDeleteFood} 
+      onOpenModal={() => handleOpenModal('alimento')} 
+    />
+  )}
         {activeTab === 'parceiros' && <PartnersTab parceiros={parceiros} onOpenModal={(t) => handleOpenModal(t)} onDelete={(id) => handleDeleteItem('partners', id)} />}
         {activeTab === 'config' && <ConfigTab />}
+
       </div>
 
       {/* Modal Central */}

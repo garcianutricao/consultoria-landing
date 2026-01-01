@@ -6,7 +6,7 @@ import {
   X, BarChart3, Activity, Scale, Moon, Dumbbell, Utensils, 
   Smile, Frown, Meh, Loader2, FileText, Calendar, RefreshCw, 
   Check, AlertCircle, Clock, DollarSign, PlayCircle, Plus, 
-  Trash2, Send, ChevronRight, Users, Phone 
+  Trash2, Send, ChevronRight, Users, Phone, Lock, Apple, Beef, Wheat, Droplet
 } from 'lucide-react';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, AreaChart, Area, BarChart, Bar, Legend
@@ -26,6 +26,7 @@ export default function AdminModals({ isOpen, type, onClose, onSuccess, data, on
 
   const { pacienteSelecionado, checkinsDb, listaPacientes, modalData } = data || {};
   const [saving, setSaving] = useState(false);
+  const [tipoTransacao, setTipoTransacao] = useState<'income' | 'expense'>('income');
 
   // --- FORMULÁRIO: RENOVAÇÃO (NOVO) ---
   const renderFormRenovacao = () => (
@@ -231,23 +232,35 @@ export default function AdminModals({ isOpen, type, onClose, onSuccess, data, on
     );
   };
 
-  // --- FORMULÁRIO: PACIENTE ---
+  // --- 4. FORMULÁRIO: NOVO PACIENTE (CORRIGIDO) ---
   const renderFormPaciente = () => (
     <form className="space-y-4" onSubmit={async (e) => { 
-        e.preventDefault(); setSaving(true);
+        e.preventDefault(); 
+        setSaving(true);
         const formData = new FormData(e.currentTarget);
+        
         try {
+          const email = formData.get('email') as string;
+          const password = formData.get('password') as string;
+          const nome = formData.get('nome') as string;
+
+          // 1. Cria o usuário na Autenticação
           const { data: authData, error: authError } = await supabase.auth.signUp({
-            email: formData.get('email') as string, password: formData.get('password') as string, options: { data: { full_name: formData.get('nome') } }
+            email, 
+            password, 
+            options: { data: { full_name: nome } }
           });
+
           if (authError) throw authError;
+
+          // 2. Se deu certo a Auth, insere no banco (AQUI QUE O SQL LIBERA)
           if (authData.user) {
-            await supabase.from('profiles').insert([{ 
+            const { error: profileError } = await supabase.from('profiles').insert([{ 
                 id: authData.user.id, 
-                email: formData.get('email'), 
-                full_name: formData.get('nome'), 
+                email: email, 
+                full_name: nome, 
                 phone: formData.get('telefone'),
-                birth_date: formData.get('nascimento'), // Campo novo: Nascimento
+                birth_date: formData.get('nascimento'), // Certifique-se que o banco aceita string ou data
                 plan: formData.get('plano'), 
                 checkin_freq: formData.get('freq'), 
                 checkin_day: formData.get('dia'), 
@@ -255,9 +268,21 @@ export default function AdminModals({ isOpen, type, onClose, onSuccess, data, on
                 role: 'paciente', 
                 active: true 
             }]);
-            alert("Sucesso!"); onSuccess(); onClose();
+
+            if (profileError) {
+              console.error("Erro no perfil:", profileError);
+              throw new Error("Usuário criado, mas falha ao criar perfil: " + profileError.message);
+            }
+
+            alert("Paciente cadastrado com sucesso!"); 
+            onSuccess(); // Isso atualiza a lista lá no page.tsx
+            onClose();
           }
-        } catch (error: any) { alert("Erro: " + error.message); } finally { setSaving(false); }
+        } catch (error: any) { 
+          alert("Erro ao cadastrar: " + error.message); 
+        } finally { 
+          setSaving(false); 
+        }
       }}>
       <div className="space-y-4">
         {/* Campo Nome */}
@@ -299,7 +324,7 @@ export default function AdminModals({ isOpen, type, onClose, onSuccess, data, on
           <div><label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Início</label><input name="inicio" type="date" required className="w-full p-4 bg-white border border-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-slate-900 font-bold text-slate-900" defaultValue={new Date().toISOString().split('T')[0]} /></div>
         </div>
         <button disabled={saving} className="w-full bg-slate-900 hover:bg-black text-white py-4 rounded-2xl font-bold mt-4 shadow-xl flex items-center justify-center gap-2 transition-all">
-          {saving ? <Loader2 className="animate-spin" /> : <><Plus size={20} /> Cadastrar</>}
+          {saving ? <Loader2 className="animate-spin" /> : <><Plus size={20} /> Cadastrar Paciente</>}
         </button>
       </div>
     </form>
@@ -650,7 +675,104 @@ const renderFormParceiro = () => (
       </button>
     </form>
   );
+  
+  // --- 8. NOVO: FORMULÁRIO DE ALIMENTO ---
+  const renderFormAlimento = () => (
+    <form className="space-y-5" onSubmit={async (e) => {
+      e.preventDefault(); 
+      setSaving(true);
+      const formData = new FormData(e.currentTarget);
+      
+      try {
+        const { error } = await supabase.from('foods').insert([{
+          name: formData.get('nome'),
+          group_name: formData.get('grupo'),
+          calories: parseFloat(formData.get('calorias') as string),
+          protein: parseFloat(formData.get('proteina') as string || '0'),
+          carbs: parseFloat(formData.get('carboidrato') as string || '0'),
+          fat: parseFloat(formData.get('gordura') as string || '0'),
+        }]);
 
+        if (error) throw error;
+        alert("Alimento adicionado!");
+        onSuccess();
+        onClose();
+      } catch (err: any) {
+        alert("Erro ao salvar: " + err.message);
+      } finally {
+        setSaving(false);
+      }
+    }}>
+      <div className="bg-emerald-50 p-4 rounded-2xl border border-emerald-100 mb-2">
+        <p className="text-xs text-emerald-800 font-bold flex items-center gap-2">
+          <Scale size={16} /> Dados para 100g do alimento
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Nome do Alimento</label>
+          <input name="nome" type="text" placeholder="Ex: Peito de Frango Grelhado" required className="w-full p-4 bg-white border border-slate-900 rounded-2xl focus:outline-none focus:ring-2 focus:ring-slate-900 font-bold text-slate-900" />
+        </div>
+
+        <div>
+          <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Grupo Alimentar</label>
+          <div className="grid grid-cols-2 gap-2">
+            <label className="cursor-pointer">
+              <input type="radio" name="grupo" value="proteina" className="peer hidden" required />
+              <div className="p-3 rounded-xl border border-slate-200 peer-checked:bg-rose-50 peer-checked:border-rose-500 peer-checked:text-rose-700 flex items-center justify-center gap-2 text-sm font-bold text-slate-500 transition-all">
+                <Beef size={16}/> Proteína
+              </div>
+            </label>
+            <label className="cursor-pointer">
+              <input type="radio" name="grupo" value="carboidrato" className="peer hidden" required />
+              <div className="p-3 rounded-xl border border-slate-200 peer-checked:bg-yellow-50 peer-checked:border-yellow-500 peer-checked:text-yellow-700 flex items-center justify-center gap-2 text-sm font-bold text-slate-500 transition-all">
+                <Wheat size={16}/> Carboidrato
+              </div>
+            </label>
+            <label className="cursor-pointer">
+              <input type="radio" name="grupo" value="fruta" className="peer hidden" required />
+              <div className="p-3 rounded-xl border border-slate-200 peer-checked:bg-emerald-50 peer-checked:border-emerald-500 peer-checked:text-emerald-700 flex items-center justify-center gap-2 text-sm font-bold text-slate-500 transition-all">
+                <Apple size={16}/> Fruta
+              </div>
+            </label>
+            <label className="cursor-pointer">
+              <input type="radio" name="grupo" value="gordura" className="peer hidden" required />
+              <div className="p-3 rounded-xl border border-slate-200 peer-checked:bg-orange-50 peer-checked:border-orange-500 peer-checked:text-orange-700 flex items-center justify-center gap-2 text-sm font-bold text-slate-500 transition-all">
+                <Droplet size={16}/> Gordura
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Calorias (Kcal)</label>
+            <input name="calorias" type="number" step="0.1" required className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-900" />
+          </div>
+          <div>
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Proteína (g)</label>
+            <input name="proteina" type="number" step="0.1" className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-900" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Carboidrato (g)</label>
+            <input name="carboidrato" type="number" step="0.1" className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-900" />
+          </div>
+          <div>
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Gordura (g)</label>
+            <input name="gordura" type="number" step="0.1" className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-900" />
+          </div>
+        </div>
+
+        <button disabled={saving} className="w-full bg-slate-900 hover:bg-black text-white py-4 rounded-2xl font-bold mt-4 shadow-xl flex items-center justify-center gap-2 transition-all">
+          {saving ? <Loader2 className="animate-spin" /> : <><Plus size={20} /> Salvar Alimento</>}
+        </button>
+      </div>
+    </form>
+  );
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
       <div className={`bg-white w-full rounded-3xl shadow-2xl p-6 md:p-8 animate-in zoom-in-95 duration-200 relative overflow-y-auto ${['graficos', 'heatmap'].includes(type) ? 'max-w-6xl h-[90vh]' : 'max-w-lg'}`}>

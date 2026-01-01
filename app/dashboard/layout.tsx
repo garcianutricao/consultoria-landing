@@ -20,6 +20,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   useEffect(() => {
     async function checkUserRole() {
       const { data: { user } } = await supabase.auth.getUser();
+
+      // 1. Se não houver usuário logado, manda pro login
+      if (!user) {
+        router.replace('/login');
+        return;
+      }
+      
       if (user) {
         const { data } = await supabase
           .from('profiles')
@@ -97,22 +104,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             );
           })}
 
-          {/* 2. SE FOR ADMIN (MOSTRA APENAS O PAINEL) */}
+          {/* 2. SE FOR ADMIN (MOSTRA APENAS O PAINEL DOURADO) */}
           {isAdmin && !loadingRole && (
             <div className="animate-in fade-in duration-300">
               <p className="px-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Administração</p>
               <Link 
                 href="/dashboard/admin" 
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition group ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group border ${
                   pathname.startsWith('/dashboard/admin') 
-                    ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 shadow-lg shadow-yellow-900/20' 
-                    // ESTILO INATIVO (Dourado escuro, clareia no hover)
-                    : 'text-yellow-600 hover:bg-slate-800 hover:text-yellow-400'
+                    // ESTILO ATIVO (Dourado Brilhante com Fundo)
+                    ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20 shadow-lg shadow-yellow-900/20' 
+                    // ESTILO INATIVO (Dourado Escuro, clareia no hover)
+                    : 'text-yellow-600 border-transparent hover:bg-slate-800 hover:text-yellow-400'
                 }`}
               >
                 <ShieldCheck className="w-5 h-5" />
-                <span className="font-bold text-sm">Painel Administrativo</span>
+                <span className="font-bold text-sm">Painel Admin</span>
               </Link>
             </div>
           )}
@@ -144,6 +152,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Área de Scroll do Conteúdo */}
         <main className="flex-1 overflow-y-auto bg-slate-50 p-4 md:p-8">
           <div className="max-w-6xl mx-auto">
+            
             {/* Oculta Alertas Globais para o Admin para limpar a tela */}
             {!isAdmin && <GlobalAlerts />}
             
